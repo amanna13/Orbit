@@ -1,0 +1,34 @@
+# Node modules
+node_modules/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment variables
+.env
+.env.test
+.env.local
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Optional cache folders
+.cache/
+.tmp/
+dist/
+build/
+coverage/
+
+# Editor-specific files
+.vscode/
+.idea/
+*.swp
+
+# Output of tests or tooling
+coverage/
