@@ -3,14 +3,12 @@ import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 import healthRoute from './routes/health';
 import flowRoute from './routes/flow';
-import { initializeFCL } from './services/flowService';
 import { logger } from './utils/logger';
+// Import flowConfig to ensure FCL is configured on startup
+import '../utils/flowConfig';
 
 // Load environment variables
 dotenv.config();
-
-// Initialize Flow Client Library
-initializeFCL();
 
 const app: Application = express();
 const PORT = process.env.PORT || 4000;

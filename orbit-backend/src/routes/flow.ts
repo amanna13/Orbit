@@ -1,12 +1,23 @@
 import { Router } from 'express';
-import { getBlockInfo, getAccountInfo } from '../controllers/flowController';
+import {
+  handleCreatePod,
+  handleJoinPod,
+  handleLeavePod,
+  handleGetAllPods,
+  handleGetPodDetails,
+  handleTransferBetweenPods,
+} from '../controllers/flowController';
 
 const router = Router();
 
-// Get current block information
-router.get('/block', getBlockInfo);
+// Pod Management Routes
+router.post('/pods', handleCreatePod);
+router.post('/pods/join', handleJoinPod);
+router.post('/pods/leave', handleLeavePod);
+router.get('/pods', handleGetAllPods);
+router.get('/pods/:podID', handleGetPodDetails);
 
-// Get account information by address
-router.get('/account/:address', getAccountInfo);
+// Transfer Route
+router.post('/transfer', handleTransferBetweenPods);
 
 export default router;
