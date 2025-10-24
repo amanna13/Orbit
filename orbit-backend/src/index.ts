@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 import healthRoute from './routes/health';
 import flowRoute from './routes/flow';
+import forteRoute from './routes/forte';
 import { logger } from './utils/logger';
 // Import flowConfig to ensure FCL is configured on startup
 import '../utils/flowConfig';
@@ -20,6 +21,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Routes
 app.use('/health', healthRoute);
 app.use('/api/flow', flowRoute);
+app.use('/api/forte', forteRoute);
 
 // Error handling middleware
 app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
