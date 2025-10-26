@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("com.google.devtools.ksp")
+    id ("com.google.dagger.hilt.android")
 }
 
 android {
@@ -40,6 +42,7 @@ android {
 }
 
 dependencies {
+    val nav_version = "2.9.5"
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -56,4 +59,10 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    implementation("com.google.dagger:hilt-android:2.57.1")
+    ksp ("com.google.dagger:hilt-compiler:2.57.1")
+    implementation("androidx.navigation:navigation-compose:$nav_version")
+    implementation("com.squareup.retrofit2:retrofit:3.0.0")
+    implementation("com.google.code.gson:gson:2.13.2")
+
 }
