@@ -17,7 +17,11 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LargeFloatingActionButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -40,7 +44,17 @@ fun HomeScreen(modifier: Modifier = Modifier) {
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
             TopAppBar()
-            Text("Home Screen", fontSize = 24.sp, color = ChillyRed)
+            Pods()
+        }
+
+        FloatingActionButton(onClick = {} , containerColor = ChillyRed, modifier = Modifier.align(
+            Alignment.BottomEnd).padding(30.dp)){
+            Icon(
+                Icons.Filled.Add,
+                contentDescription = "Add",
+                tint = Color.White,
+
+            )
         }
     }
 }
@@ -65,7 +79,8 @@ fun TopAppBar(modifier: Modifier = Modifier) {
             }
 
             Row(modifier = Modifier.padding(10.dp), verticalAlignment = Alignment.CenterVertically) {
-                Box(modifier = Modifier.clip(RoundedCornerShape(50.dp))
+                Box(modifier = Modifier
+                    .clip(RoundedCornerShape(50.dp))
                     .width(70.dp)
                     .height(20.dp)
                     .background(Color.Red)) {
@@ -80,5 +95,17 @@ fun TopAppBar(modifier: Modifier = Modifier) {
                 Icon(Icons.Filled.AccountCircle, contentDescription = "Account Icon", tint = Color.White, modifier = Modifier)
             }
         }
+    }
+}
+
+
+@Composable
+fun Pods(modifier: Modifier = Modifier) {
+    Box(
+        modifier = modifier.padding((20.dp))
+            .fillMaxWidth(.5f).height(190.dp).clip(RoundedCornerShape(20.dp))
+            .background(Charcoal).padding(10.dp)
+    ) {
+        Text("Pods Screen", fontSize = 24.sp, color = ChillyRed)
     }
 }
