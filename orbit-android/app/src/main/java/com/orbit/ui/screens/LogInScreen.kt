@@ -60,7 +60,7 @@ import androidx.compose.ui.unit.sp
 import androidx.core.net.toUri
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.orbit.R
-import com.orbit.ui.components.LooprLoadingUI
+import com.orbit.ui.components.OrbitLoadingUI
 import com.orbit.viewmodel.AuthViewModel
 import com.web3auth.core.Web3Auth
 import com.web3auth.core.types.BuildEnv
@@ -196,7 +196,7 @@ fun SignInContent(
             ) {
                 Image(
                     painterResource(id = R.drawable.google_logo),
-                    contentDescription = "Loopr Logo",
+                    contentDescription = "Orbit Logo",
                     modifier = Modifier.scale(0.8f)
                 )
 

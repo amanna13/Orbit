@@ -13,6 +13,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.navigation.navDeepLink
+import com.orbit.ui.screens.HomeScreen
 import com.orbit.ui.screens.SignInScreen
 import com.orbit.viewmodel.AuthViewModel
 
@@ -23,7 +24,7 @@ fun OrbitNavigation(
     deepLinkUri: Uri? = null
 ) {
     // Always start with SignInScreen - it will handle session checking and routing internally
-    val startDestination = OrbitDestinations.SIGN_IN
+    val startDestination = OrbitDestinations.HOME
 
     val authViewModel: AuthViewModel = hiltViewModel()
     val userInfo by authViewModel.userInfo.collectAsState()
@@ -59,7 +60,7 @@ fun OrbitNavigation(
 
 
         composable(OrbitDestinations.HOME) {
-
+            HomeScreen()
         }
 
 //        composable(route = LooprDestinations.QR_SCANNER) {
