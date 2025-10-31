@@ -485,7 +485,18 @@ private fun EmbeddedCameraPreview(
         // Compact overlay with scanning frame
         CompactScannerOverlay()
 
-
+        // Instructions
+        Text(
+            text = "Point at QR Code",
+            fontFamily = Poppins,
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Medium,
+            color = Color.White,
+            textAlign = TextAlign.Center,
+            modifier = Modifier
+                .align(Alignment.TopCenter)
+                .padding(top = 16.dp)
+        )
     }
 }
 
@@ -541,7 +552,7 @@ private fun CompactScannerOverlay() {
             Box(
                 modifier = Modifier
                     .align(Alignment.BottomStart)
-                    .size(4.dp, 32.dp)
+                    .size(3.dp, 28.dp)
                     .background(CustomRed)
             )
 
@@ -549,13 +560,13 @@ private fun CompactScannerOverlay() {
             Box(
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
-                    .size(32.dp, 4.dp)
+                    .size(28.dp, 3.dp)
                     .background(CustomRed)
             )
             Box(
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
-                    .size(4.dp, 32.dp)
+                    .size(3.dp, 28.dp)
                     .background(CustomRed)
             )
         }

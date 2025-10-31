@@ -45,7 +45,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -548,9 +547,6 @@ private fun JoinPodDialog(
 ) {
     var showScanner by remember { mutableStateOf(false) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
-    val composition by rememberLottieComposition(
-        LottieCompositionSpec.RawRes(R.raw.qr_code_scan)
-    )
 
     Dialog(
         onDismissRequest = onBack,
@@ -584,12 +580,12 @@ private fun JoinPodDialog(
                     Box(
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(24.dp)
+                            .padding(16.dp)
                     ) {
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .fillMaxHeight(0.65f)
+                                .fillMaxHeight(0.75f)
                                 .align(Alignment.Center)
                                 .clip(RoundedCornerShape(16.dp))
                         ) {
@@ -605,32 +601,6 @@ private fun JoinPodDialog(
                             )
                         }
 
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            verticalAlignment = Alignment.CenterVertically,
-                        ) {
-                            IconButton(
-                                onClick = onBack,
-                                modifier = Modifier
-                                    .size(40.dp)
-                                    .clip(CircleShape)
-                                    .background(Color.White.copy(alpha = 0.1f))
-                            ) {
-                                Icon(
-                                    Icons.Filled.ArrowBack,
-                                    contentDescription = "Back",
-                                    tint = Color.White
-                                )
-                            }
-
-                            Text(
-                                "Point at QR Code",
-                                fontFamily = Poppins,
-                                fontSize = 20.sp,
-                                fontWeight = FontWeight.SemiBold, textAlign = TextAlign.Center,
-                                color = Color.White, modifier = Modifier.fillMaxWidth()
-                            )
-                        }
                         // Instructions below camera
                         Text(
                             text = "Align QR code within the frame",
@@ -645,7 +615,23 @@ private fun JoinPodDialog(
                         )
 
                         // Back button overlay
-
+                        IconButton(
+                            onClick = {
+                                showScanner = false
+                                errorMessage = null
+                            },
+                            modifier = Modifier
+                                .align(Alignment.TopStart)
+                                .size(40.dp)
+                                .clip(CircleShape)
+                                .background(Color.Black.copy(alpha = 0.5f))
+                        ) {
+                            Icon(
+                                Icons.Filled.ArrowBack,
+                                contentDescription = "Back",
+                                tint = Color.White
+                            )
+                        }
                     }
                 } else {
                     // Initial join pod screen
@@ -688,17 +674,20 @@ private fun JoinPodDialog(
                         Spacer(modifier = Modifier.height(32.dp))
 
                         // Scanner icon/illustration
-
-                            LottieAnimation(
-                                composition = composition,
-                                iterations = LottieConstants.IterateForever,
-                                modifier = Modifier
-                                    .size(240.dp)
-                                    .padding(0.dp)
+                        Box(
+                            modifier = Modifier
+                                .size(120.dp)
+                                .clip(RoundedCornerShape(20.dp))
+                                .background(Color.White.copy(alpha = 0.1f)),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                "📱",
+                                fontSize = 60.sp
                             )
+                        }
 
-
-                        Spacer(modifier = Modifier.height(12.dp))
+                        Spacer(modifier = Modifier.height(24.dp))
 
                         Text(
                             "Scan QR Code",
@@ -747,7 +736,7 @@ private fun JoinPodDialog(
                             },
                             modifier = Modifier
                                 .fillMaxWidth()
-                            .height(56.dp),
+                                .height(56.dp),
                             shape = RoundedCornerShape(12.dp)
                         ) {
                             Text(

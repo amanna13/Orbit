@@ -13,6 +13,7 @@ object OrbitDestinations {
     // Main app routes
     const val MAIN_GRAPH = "main_graph"
     const val HOME = "home"
+    const val PODS = "pods"
     const val PROFILE = "profile"
     const val QR_SCANNER = "qr_scanner"
 }

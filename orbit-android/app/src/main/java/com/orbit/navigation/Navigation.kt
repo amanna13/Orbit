@@ -1,6 +1,9 @@
 package com.orbit.navigation
 
 import android.net.Uri
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -14,6 +17,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.navigation.navDeepLink
 import com.orbit.ui.screens.HomeScreen
+import com.orbit.ui.screens.PodsScreen
 import com.orbit.ui.screens.SignInScreen
 import com.orbit.viewmodel.AuthViewModel
 
@@ -59,8 +63,48 @@ fun OrbitNavigation(
         }
 
 
-        composable(OrbitDestinations.HOME) {
-            HomeScreen()
+        composable(
+            route = OrbitDestinations.HOME,
+            enterTransition = {
+                slideInHorizontally(
+                    initialOffsetX = { -it },
+                    animationSpec = tween(400)
+                )
+            },
+            exitTransition = {
+                slideOutHorizontally(
+                    targetOffsetX = { -it },
+                    animationSpec = tween(400)
+                )
+            }
+        ) {
+            HomeScreen(
+                onNavigateToPods = {
+                    navController.navigate(OrbitDestinations.PODS)
+                }
+            )
+        }
+
+        composable(
+            route = OrbitDestinations.PODS,
+            enterTransition = {
+                slideInHorizontally(
+                    initialOffsetX = { it },
+                    animationSpec = tween(400)
+                )
+            },
+            exitTransition = {
+                slideOutHorizontally(
+                    targetOffsetX = { it },
+                    animationSpec = tween(400)
+                )
+            }
+        ) {
+            PodsScreen(
+                onNavigateBack = {
+                    navController.popBackStack()
+                }
+            )
         }
 
 //        composable(route = LooprDestinations.QR_SCANNER) {

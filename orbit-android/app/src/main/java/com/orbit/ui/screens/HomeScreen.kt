@@ -1,5 +1,6 @@
 package com.orbit.ui.screens
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -58,7 +59,10 @@ import com.orbit.ui.theme.Gatians
 import kotlin.math.absoluteValue
 
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier) {
+fun HomeScreen(
+    onNavigateToPods: () -> Unit = {},
+    modifier: Modifier = Modifier
+) {
     var showDialog by remember { mutableStateOf(false) }
 
     Box(
@@ -69,7 +73,7 @@ fun HomeScreen(modifier: Modifier = Modifier) {
         Column(modifier = Modifier.fillMaxSize()) {
             TopAppBar()
             RecentActivity()
-            InfoCards()
+            InfoCards(onNavigateToPods = onNavigateToPods)
         }
 
         FloatingActionButton(
@@ -105,8 +109,8 @@ fun HomeScreen(modifier: Modifier = Modifier) {
                 println("Invite others clicked")
             },
             onViewPods = {
-                // TODO: Wire view pods navigation here
-                println("View pods clicked")
+                showDialog = false
+                onNavigateToPods()
             }
         )
     }
@@ -166,7 +170,10 @@ fun TopAppBar(modifier: Modifier = Modifier) {
 
 
 @Composable
-fun InfoCards(modifier: Modifier = Modifier) {
+fun InfoCards(
+    onNavigateToPods: () -> Unit = {},
+    modifier: Modifier = Modifier
+) {
     Box(
         modifier = Modifier
             .padding(10.dp)
@@ -174,6 +181,7 @@ fun InfoCards(modifier: Modifier = Modifier) {
             .background(Charcoal)
             .fillMaxWidth()
             .height(110.dp)
+            .clickable { onNavigateToPods() }
     ) {
         Column(modifier = Modifier.padding(20.dp)) {
             Text(
