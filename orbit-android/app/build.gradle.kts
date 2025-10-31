@@ -68,5 +68,14 @@ dependencies {
     implementation("com.google.code.gson:gson:2.13.2")
     implementation("org.web3j:core:4.8.7-android")
     implementation("com.github.web3auth:web3auth-android-sdk:9.1.2")
+    implementation("com.airbnb.android:lottie-compose:6.7.0")
 
+    // Google ML Kit Barcode Scanning with Camera
+    implementation("com.google.mlkit:barcode-scanning:17.3.0")
+    implementation("androidx.camera:camera-camera2:1.3.1")
+    implementation("androidx.camera:camera-lifecycle:1.3.1")
+    implementation("androidx.camera:camera-view:1.3.1")
+
+    // Accompanist Permissions
+    implementation("com.google.accompanist:accompanist-permissions:0.36.0")
 }
