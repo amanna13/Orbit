@@ -20,6 +20,11 @@ val Poppins = FontFamily(
     Font(R.font.poppins_extrabold, FontWeight.ExtraBold)
 )
 
+
+val Gatians = FontFamily(
+    Font(R.font.gantians, FontWeight.Normal),
+)
+
 // Set of Material typography styles to start with. Material3's Typography doesn't accept a
 // `defaultFontFamily` parameter, so we set fontFamily = Poppins on each TextStyle.
 val Typography = Typography(
