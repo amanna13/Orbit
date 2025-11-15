@@ -58,7 +58,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.net.toUri
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.orbit.R
 import com.orbit.ui.components.OrbitLoadingUI
 import com.orbit.viewmodel.AuthViewModel
@@ -69,6 +69,8 @@ import com.web3auth.core.types.LoginParams
 import com.web3auth.core.types.Network
 import com.web3auth.core.types.Provider
 import com.web3auth.core.types.Web3AuthOptions
+import org.web3j.protocol.Web3j
+import org.web3j.protocol.http.HttpService
 
 
 @Composable
@@ -90,7 +92,7 @@ fun getActivity(): Activity {
 fun SignInScreen(
     deepLinkUri: Uri? = null,
     onAuthenticationSuccess: () -> Unit = {},
-    authViewModel: AuthViewModel = viewModel(),
+    authViewModel: AuthViewModel = hiltViewModel(),
     shouldLogout: Boolean = false
 ) {
     var email by remember { mutableStateOf("") }
@@ -98,12 +100,11 @@ fun SignInScreen(
     var isLoading by remember { mutableStateOf(false) }
     var isInitialized by remember { mutableStateOf(false) }
 
-
     val activity = getActivity()
 
     // Web3Auth instance
     val web3Auth = remember(activity) {
-        Web3Auth(
+        val instance = Web3Auth(
             Web3AuthOptions(
                 clientId = "BA43j5ozOZvb47Y1MoSWH4V1tDRzheFxfqJXr4R1TRHN0PcG-ucoWi9EoRc3nZPXfGubF0GUrSKyXkKLO1xIfps",
                 network = Network.SAPPHIRE_DEVNET,
@@ -111,7 +112,10 @@ fun SignInScreen(
                 redirectUrl = "com.orbit://auth".toUri()
             ), activity
         )
+        instance
     }
+
+
 
     // Handle logout if requested
     LaunchedEffect(shouldLogout) {
@@ -129,6 +133,16 @@ fun SignInScreen(
         web3Auth.initialize().whenComplete { _, error ->
             isAuthenticated = error == null && web3Auth.getUserInfo() != null
             isInitialized = true
+
+            // Register Web3Auth instance with Web3AuthManager via AuthViewModel
+            if (error == null) {
+                authViewModel.setWeb3AuthInstance(web3Auth)
+
+                // If already authenticated, save user info
+                web3Auth.getUserInfo()?.let { userInfo ->
+                    authViewModel.setUserInfo(userInfo)
+                }
+            }
         }
     }
 
@@ -195,16 +209,16 @@ fun SignInContent(
                 modifier = Modifier.padding(bottom = 48.dp)
             ) {
                 Image(
-                    painterResource(id = R.drawable.google_logo),
+                    painterResource(id = R.drawable.orbit_logo_cropped),
                     contentDescription = "Orbit Logo",
-                    modifier = Modifier.scale(0.8f)
+                    modifier = Modifier.scale(1f)
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Text(
-                    text = "Subscriptions made simple",
-                    fontSize = 16.sp,
+                    text = "Stay in Orbit. The new way money moves.",
+                    fontSize = 14.sp,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.padding(top = 8.dp)

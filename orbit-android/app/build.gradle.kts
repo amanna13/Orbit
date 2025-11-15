@@ -18,6 +18,10 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        // Backend API Configuration
+        buildConfigField("String", "BASE_URL", "\"http://10.0.2.2:4000/\"")  // Android Emulator localhost (backend on port 4000)
+        buildConfigField("String", "BASE_URL_PHYSICAL", "\"http://192.168.1.100:4000/\"")  // Physical device (update IP)
     }
 
     buildTypes {
@@ -38,6 +42,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
@@ -64,7 +69,20 @@ dependencies {
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 
     implementation("androidx.navigation:navigation-compose:$nav_version")
-    implementation("com.squareup.retrofit2:retrofit:3.0.0")
+
+    // Networking - Retrofit, OkHttp, Moshi
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
+    implementation("com.squareup.moshi:moshi:1.15.0")
+    implementation("com.squareup.moshi:moshi-kotlin:1.15.0")
+    ksp("com.squareup.moshi:moshi-kotlin-codegen:1.15.0")
+
+    // DataStore for preferences
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
+
     implementation("com.google.code.gson:gson:2.13.2")
     implementation("org.web3j:core:4.8.7-android")
     implementation("com.github.web3auth:web3auth-android-sdk:9.1.2")
@@ -78,4 +96,9 @@ dependencies {
 
     // Accompanist Permissions
     implementation("com.google.accompanist:accompanist-permissions:0.36.0")
+
+    implementation("androidx.compose.material:material-icons-extended:1.7.8")
+
+    // QR Code Generation
+    implementation("com.google.zxing:core:3.5.3")
 }

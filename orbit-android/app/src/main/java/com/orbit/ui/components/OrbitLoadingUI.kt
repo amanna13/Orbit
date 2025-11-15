@@ -49,9 +49,9 @@ fun OrbitLoadingUI(
             verticalArrangement = Arrangement.Center
         ) {
             Image(
-                painterResource(id = R.drawable.google_logo),
-                contentDescription = "Loopr Logo",
-                modifier = Modifier.scale(0.8f)
+                painterResource(id = R.drawable.orbit_logo_cropped),
+                contentDescription = "Orbit Logo",
+                modifier = Modifier.scale(1f)
             )
 
             Spacer(modifier = Modifier.height(32.dp))

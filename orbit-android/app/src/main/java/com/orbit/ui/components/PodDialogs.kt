@@ -8,6 +8,7 @@ import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -44,6 +45,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -76,11 +78,18 @@ fun PodDialogFlow(
     onCreatePod: (String) -> Unit = {},
     onJoinPod: (String) -> Unit = {}, // Now receives the QR code
     onInviteOthers: () -> Unit = {},
-    onViewPods: () -> Unit = {}
+    onViewPods: () -> Unit = {},
+    createdPodJoinCode: String? = null // Join code from backend after pod creation
 ) {
     var dialogState by remember { mutableStateOf(DialogState.INITIAL) }
     var podName by remember { mutableStateOf("") }
     var scannedPodCode by remember { mutableStateOf("") }
+    var joinCode by remember { mutableStateOf<String?>(null) }
+
+    // Update join code when received from backend
+    if (createdPodJoinCode != null && joinCode == null && dialogState == DialogState.SUCCESS) {
+        joinCode = createdPodJoinCode
+    }
 
     if (showDialog) {
         when (dialogState) {
@@ -116,21 +125,25 @@ fun PodDialogFlow(
             DialogState.SUCCESS -> {
                 SuccessDialog(
                     podName = podName,
+                    joinCode = joinCode ?: createdPodJoinCode, // Pass the join code
                     onDismiss = {
                         dialogState = DialogState.CLOSED
                         podName = ""
+                        joinCode = null
                         onDismiss()
                     },
                     onInviteOthers = {
                         onInviteOthers()
                         dialogState = DialogState.CLOSED
                         podName = ""
+                        joinCode = null
                         onDismiss()
                     },
                     onViewPods = {
                         onViewPods()
                         dialogState = DialogState.CLOSED
                         podName = ""
+                        joinCode = null
                         onDismiss()
                     }
                 )
@@ -407,6 +420,7 @@ private fun CreatePodDialog(
 @Composable
 private fun SuccessDialog(
     podName: String,
+    joinCode: String?,
     onDismiss: () -> Unit,
     onInviteOthers: () -> Unit,
     onViewPods: () -> Unit
@@ -414,6 +428,13 @@ private fun SuccessDialog(
     val composition by rememberLottieComposition(
         LottieCompositionSpec.RawRes(R.raw.giving_five)
     )
+
+    // Generate QR code bitmap
+    val qrBitmap = remember(joinCode) {
+        joinCode?.let { code ->
+            com.orbit.util.QRCodeGenerator.generatePodJoinQRCode(code, 512)
+        }
+    }
 
     Dialog(
         onDismissRequest = onDismiss,
@@ -491,6 +512,62 @@ private fun SuccessDialog(
                             textAlign = TextAlign.Center
                         )
 
+                        // QR Code Section (if join code available)
+                        if (joinCode != null && qrBitmap != null) {
+                            Spacer(modifier = Modifier.height(24.dp))
+
+                            Text(
+                                "Share Join Code",
+                                fontFamily = Poppins,
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.Medium,
+                                color = Color.White
+                            )
+
+                            Spacer(modifier = Modifier.height(12.dp))
+
+                            // QR Code
+                            androidx.compose.foundation.Image(
+                                bitmap = qrBitmap.asImageBitmap(),
+                                contentDescription = "Pod Join QR Code",
+                                modifier = Modifier
+                                    .size(180.dp)
+                                    .clip(RoundedCornerShape(12.dp))
+                                    .background(Color.White)
+                                    .padding(8.dp)
+                            )
+
+                            Spacer(modifier = Modifier.height(12.dp))
+
+                            // Join Code Text
+                            Surface(
+                                shape = RoundedCornerShape(8.dp),
+                                color = Color.White.copy(alpha = 0.1f),
+                                modifier = Modifier.padding(horizontal = 16.dp)
+                            ) {
+                                Text(
+                                    joinCode,
+                                    fontFamily = Poppins,
+                                    fontSize = 18.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = CustomRed,
+                                    textAlign = TextAlign.Center,
+                                    modifier = Modifier.padding(horizontal = 20.dp, vertical = 12.dp)
+                                )
+                            }
+
+                            Spacer(modifier = Modifier.height(8.dp))
+
+                            Text(
+                                "Others can scan this QR code to join",
+                                fontFamily = Poppins,
+                                fontSize = 12.sp,
+                                fontWeight = FontWeight.Normal,
+                                color = Color.White.copy(alpha = 0.6f),
+                                textAlign = TextAlign.Center
+                            )
+                        }
+
                         Spacer(modifier = Modifier.height(32.dp))
 
                         // Action buttons
@@ -547,6 +624,9 @@ private fun JoinPodDialog(
 ) {
     var showScanner by remember { mutableStateOf(false) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
+    val composition by rememberLottieComposition(
+        LottieCompositionSpec.RawRes(R.raw.qr_code_scan
+    ))
 
     Dialog(
         onDismissRequest = onBack,
@@ -674,18 +754,7 @@ private fun JoinPodDialog(
                         Spacer(modifier = Modifier.height(32.dp))
 
                         // Scanner icon/illustration
-                        Box(
-                            modifier = Modifier
-                                .size(120.dp)
-                                .clip(RoundedCornerShape(20.dp))
-                                .background(Color.White.copy(alpha = 0.1f)),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text(
-                                "📱",
-                                fontSize = 60.sp
-                            )
-                        }
+                            LottieAnimation(composition = composition, modifier = Modifier.size(200.dp), iterations = LottieConstants.IterateForever)
 
                         Spacer(modifier = Modifier.height(24.dp))
 

@@ -1,7 +1,10 @@
+@file:Suppress("unused")
+
 package com.orbit.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
+// Material Design Colors
 val Purple80 = Color(0xFFD0BCFF)
 val PurpleGrey80 = Color(0xFFCCC2DC)
 val Pink80 = Color(0xFFEFB8C8)
@@ -10,11 +13,12 @@ val Purple40 = Color(0xFF6650a4)
 val PurpleGrey40 = Color(0xFF625b71)
 val Pink40 = Color(0xFF7D5260)
 
+// App Theme Colors
 val Charcoal = Color(0xFF252525)
 val DarkGray = Color(0xFF1B1B1D)
-val CherryRed = Color((0xFFD20A2E))
+val CherryRed = Color(0xFFD20A2E)
 val CardinalRed = Color(0xFFC41E3A)
-val RustyRed  = Color(0xFFDA2C43)
+val RustyRed = Color(0xFFDA2C43)
 val CarnelianRed = Color(0xFFB31B1B)
 val ChillyRed = Color(0xFFCD1C18)
 val CustomRed = Color(0xFFD71921)
@@ -30,3 +34,6 @@ val IndigoDeep = Color(0xFF5C6BC0)
 val PinkVivid = Color(0xFFEC407A)
 val EmeraldGreen = Color(0xFF66BB6A)
 val CoralOrange = Color(0xFFFF7043)
+
+// Logo Background
+val logo_bg_color = Color(0xFF607d8b)

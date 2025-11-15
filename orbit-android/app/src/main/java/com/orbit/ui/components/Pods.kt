@@ -14,9 +14,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -44,6 +46,7 @@ data class PodInfo(
     val lastActivity: String? = null
 )
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PodCard(
     podInfo: PodInfo,
@@ -51,6 +54,7 @@ fun PodCard(
     onClick: () -> Unit = {}
 ) {
     Card(
+        onClick = onClick,
         modifier = modifier
             .fillMaxWidth()
             .height(200.dp),
@@ -97,13 +101,39 @@ fun PodCard(
                             fontSize = 20.sp
                         )
                     }
+
+                    Box(
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(20.dp))
+                            .background(Color.White.copy(alpha = 0.15f))
+                            .padding(horizontal = 12.dp, vertical = 6.dp)
+                    ) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(6.dp)
+                        ) {
+                            Icon(
+                                imageVector = Icons.Filled.Person,
+                                contentDescription = "Members",
+                                tint = podInfo.colorTag.copy(alpha = 0.9f),
+                                modifier = Modifier.size(16.dp)
+                            )
+                            Text(
+                                text = "${podInfo.memberCount}",
+                                fontFamily = Poppins,
+                                fontSize = 13.sp,
+                                fontWeight = FontWeight.SemiBold,
+                                color = Color.White
+                            )
+                        }
+                    }
                 }
 
                 Spacer(modifier = Modifier.height(8.dp))
 
                 // Bottom section - Pod details
                 Column(
-                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                    verticalArrangement = Arrangement.SpaceEvenly
                 ) {
                     // Pod name
                     Text(
@@ -122,31 +152,31 @@ fun PodCard(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         // Member count pill (no "members" text)
-                        Box(
-                            modifier = Modifier
-                                .clip(RoundedCornerShape(20.dp))
-                                .background(Color.White.copy(alpha = 0.15f))
-                                .padding(horizontal = 12.dp, vertical = 6.dp)
-                        ) {
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.spacedBy(6.dp)
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Filled.Person,
-                                    contentDescription = "Members",
-                                    tint = podInfo.colorTag.copy(alpha = 0.9f),
-                                    modifier = Modifier.size(16.dp)
-                                )
-                                Text(
-                                    text = "${podInfo.memberCount}",
-                                    fontFamily = Poppins,
-                                    fontSize = 13.sp,
-                                    fontWeight = FontWeight.SemiBold,
-                                    color = Color.White
-                                )
-                            }
-                        }
+//                        Box(
+//                            modifier = Modifier
+//                                .clip(RoundedCornerShape(20.dp))
+//                                .background(Color.White.copy(alpha = 0.15f))
+//                                .padding(horizontal = 12.dp, vertical = 6.dp)
+//                        ) {
+//                            Row(
+//                                verticalAlignment = Alignment.CenterVertically,
+//                                horizontalArrangement = Arrangement.spacedBy(6.dp)
+//                            ) {
+//                                Icon(
+//                                    imageVector = Icons.Filled.Person,
+//                                    contentDescription = "Members",
+//                                    tint = podInfo.colorTag.copy(alpha = 0.9f),
+//                                    modifier = Modifier.size(16.dp)
+//                                )
+//                                Text(
+//                                    text = "${podInfo.memberCount}",
+//                                    fontFamily = Poppins,
+//                                    fontSize = 13.sp,
+//                                    fontWeight = FontWeight.SemiBold,
+//                                    color = Color.White
+//                                )
+//                            }
+//                        }
 
                         // Balance pill with currency symbol (no "balance" text)
                         Box(
@@ -157,20 +187,21 @@ fun PodCard(
                         ) {
                             Row(
                                 verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.spacedBy(4.dp)
+                                horizontalArrangement = Arrangement.SpaceEvenly, modifier = Modifier.fillMaxWidth()
                             ) {
-                                Text(
-                                    text = "₹",
-                                    fontFamily = Poppins,
-                                    fontSize = 14.sp,
-                                    fontWeight = FontWeight.Bold,
-                                    color = podInfo.colorTag
+
+                                Icon(
+                                    imageVector = Icons.Default.AccountCircle,
+                                    contentDescription = "Members",
+                                    tint = podInfo.colorTag.copy(alpha = 0.9f),
+                                    modifier = Modifier.size(16.dp)
                                 )
+
                                 Text(
-                                    text = String.format("%.0f", podInfo.balance),
+                                    text = String.format("%.0f", podInfo.balance) + " FLOW",
                                     fontFamily = Poppins,
                                     fontSize = 13.sp,
-                                    fontWeight = FontWeight.SemiBold,
+                                    fontWeight = FontWeight.Normal,
                                     color = Color.White
                                 )
                             }

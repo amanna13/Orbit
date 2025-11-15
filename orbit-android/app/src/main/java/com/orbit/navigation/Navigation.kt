@@ -17,8 +17,11 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.navigation.navDeepLink
 import com.orbit.ui.screens.HomeScreen
+import com.orbit.ui.screens.PodDetailsScreen
 import com.orbit.ui.screens.PodsScreen
 import com.orbit.ui.screens.SignInScreen
+import com.orbit.ui.theme.*
+import com.orbit.ui.components.PodInfo
 import com.orbit.viewmodel.AuthViewModel
 
 @Composable
@@ -28,7 +31,7 @@ fun OrbitNavigation(
     deepLinkUri: Uri? = null
 ) {
     // Always start with SignInScreen - it will handle session checking and routing internally
-    val startDestination = OrbitDestinations.HOME
+    val startDestination = OrbitDestinations.SIGN_IN
 
     val authViewModel: AuthViewModel = hiltViewModel()
     val userInfo by authViewModel.userInfo.collectAsState()
@@ -101,6 +104,60 @@ fun OrbitNavigation(
             }
         ) {
             PodsScreen(
+                onNavigateBack = {
+                    navController.popBackStack()
+                },
+                onPodClick = { podInfo ->
+                    // Navigate to pod details
+                    // For now, we'll create a temporary route with podId
+                    navController.navigate("${OrbitDestinations.POD_DETAILS}/${podInfo.podId}")
+                }
+            )
+        }
+
+        composable(
+            route = "${OrbitDestinations.POD_DETAILS}/{podId}",
+            arguments = listOf(
+                navArgument("podId") {
+                    type = NavType.StringType
+                }
+            ),
+            enterTransition = {
+                slideInHorizontally(
+                    initialOffsetX = { it },
+                    animationSpec = tween(400)
+                )
+            },
+            exitTransition = {
+                slideOutHorizontally(
+                    targetOffsetX = { it },
+                    animationSpec = tween(400)
+                )
+            }
+        ) { backStackEntry ->
+            val podId = backStackEntry.arguments?.getString("podId") ?: ""
+
+            // TODO: Fetch pod details from backend/viewmodel
+            // For now, using mock data
+            val podColors = listOf(
+                DeepPurple, VividBlue, TealAccent, LimeGreen, AmberOrange,
+                CyanBlue, IndigoDeep, PinkVivid, EmeraldGreen, CoralOrange
+            )
+            val smileyEmojis = listOf(
+                "😊", "😎", "🤩", "😇", "🥳", "😄", "😁", "🙂", "😉", "😌"
+            )
+
+            val mockPodInfo = PodInfo(
+                podId = podId,
+                podName = "Team Alpha",
+                memberCount = 8,
+                balance = 12500.0,
+                colorTag = podColors[0],
+                emoji = smileyEmojis[0]
+            )
+
+            PodDetailsScreen(
+                podInfo = mockPodInfo,
                 onNavigateBack = {
                     navController.popBackStack()
                 }
