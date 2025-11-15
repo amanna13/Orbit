@@ -97,6 +97,7 @@ access(all) contract Pod {
         access(all) let id: UInt64
         access(all) let name: String
         access(all) let joinCode: String
+        access(all) let joinHash: String  // Hash of the join code
         access(all) let creator: Address
         access(all) var members: {Address: String}
         access(all) var memberBalances: {Address: UFix64}
@@ -113,10 +114,11 @@ access(all) contract Pod {
         // Incoming Sources (income streams)
         access(all) var incomingSources: {String: Source}
 
-        init(id: UInt64, name: String, joinCode: String, creator: Address, role: String) {
+        init(id: UInt64, name: String, joinCode: String, joinHash: String, creator: Address, role: String) {
             self.id = id
             self.name = name
             self.joinCode = joinCode
+            self.joinHash = joinHash
             self.creator = creator
             self.members = {creator: role}
             // Initialize creator's balance to 0
@@ -286,7 +288,7 @@ access(all) contract Pod {
             if !self.isAuthorized(address: caller) {
                 panic("Only authorized members can remove sinks")
             }
-            self.sinks.remove(key: receiver)
+            let _ = self.sinks.remove(key: receiver)
         }
 
         // Distribute payments to all sinks
@@ -407,7 +409,7 @@ access(all) contract Pod {
                 panic("Source ID '".concat(sourceID).concat("' not found"))
             }
             
-            self.incomingSources.remove(key: sourceID)
+            let _ = self.incomingSources.remove(key: sourceID)
         }
 
         // Record a deposit from a source
@@ -505,6 +507,7 @@ access(all) contract Pod {
     // Storage for all pods
     access(all) var pods: @{UInt64: PodResource}
     access(all) var nextPodID: UInt64
+    access(all) var joinHashToPodID: {String: UInt64}  // Map joinHash to podID
 
     // Generate a random alphanumeric join code
     access(all) fun generateJoinCode(): String {
@@ -526,8 +529,8 @@ access(all) contract Pod {
         return joinCode
     }
 
-    // Create a new pod
-    access(all) fun createPod(name: String, creator: Address, role: String): UInt64 {
+    // Create a new pod with joinHash
+    access(all) fun createPod(name: String, creator: Address, joinHash: String): UInt64 {
         let podID = self.nextPodID
         let joinCode = self.generateJoinCode()
         
@@ -535,14 +538,23 @@ access(all) contract Pod {
             id: podID,
             name: name,
             joinCode: joinCode,
+            joinHash: joinHash,
             creator: creator,
-            role: role
+            role: "creator"
         )
+        
+        // Store the joinHash to podID mapping
+        self.joinHashToPodID[joinHash] = podID
         
         self.pods[podID] <-! newPod
         self.nextPodID = self.nextPodID + 1
         
         return podID
+    }
+
+    // Get podID by joinHash
+    access(all) fun getPodByJoinHash(joinHash: String): UInt64? {
+        return self.joinHashToPodID[joinHash]
     }
 
     // Borrow a reference to a pod
@@ -553,5 +565,6 @@ access(all) contract Pod {
     init() {
         self.pods <- {}
         self.nextPodID = 1
+        self.joinHashToPodID = {}
     }
 }
