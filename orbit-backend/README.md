@@ -53,6 +53,14 @@ npm start
 ### Flow Blockchain
 - `GET /api/flow/block` - Get current Flow blockchain block information
 - `GET /api/flow/account/:address` - Get Flow account information by address
+ - `POST /api/flow/pods` - Create a new pod. NOTE: the create endpoint returns a plaintext `joinCode` in the response (and the on-chain state stores only the hash). Use the returned `joinCode` for "scan-to-join" flows — the server stores only the hashed join code on-chain as metadata.
+ 
+Important: the plaintext join code behavior
+
+- The plaintext `joinCode` is returned only once by `POST /api/flow/pods` when you create a pod. The backend generates the code and returns it to the caller (so you can display it or encode it in a QR). The server does not persist the plaintext join code in pod metadata.
+- The on-chain `PodContract` stores only a hash of the join code (`joinHash`), so retrieving pod data from the chain (or via `GET /api/flow/pods` and `GET /api/flow/pods/:podID`) will NOT reveal the plaintext code. If you need to re-issue a join code, call the appropriate server endpoint to generate a new code and update the on-chain hash (this requires contract permissions).
+
+See `API_DOCUMENTATION.md` for full request/response examples and details on the on-chain hashed join-code flow.
 
 ## Project Structure
 

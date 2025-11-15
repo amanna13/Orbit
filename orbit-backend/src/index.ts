@@ -6,7 +6,7 @@ import flowRoute from './routes/flow';
 import forteRoute from './routes/forte';
 import { logger } from './utils/logger';
 // Import flowConfig to ensure FCL is configured on startup
-import '../utils/flowConfig';
+import './utils/flowConfig';
 
 // Load environment variables
 dotenv.config();

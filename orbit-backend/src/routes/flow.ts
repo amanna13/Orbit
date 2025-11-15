@@ -6,6 +6,11 @@ import {
   handleGetAllPods,
   handleGetPodDetails,
   handleTransferBetweenPods,
+  handleGetPodsByAddress,
+  handleDepositToPod,
+  handleDistributePodFunds,
+  handleExecutePodDisbursement,
+  handleGetFlowBalance,
 } from '../controllers/flowController';
 
 const router = Router();
@@ -16,8 +21,17 @@ router.post('/pods/join', handleJoinPod);
 router.post('/pods/leave', handleLeavePod);
 router.get('/pods', handleGetAllPods);
 router.get('/pods/:podID', handleGetPodDetails);
+router.get('/pods/by-address/:address', handleGetPodsByAddress);
 
-// Transfer Route
+// Account Routes
+router.get('/balance/:address', handleGetFlowBalance);
+
+// Transfer & Deposit Routes
 router.post('/transfer', handleTransferBetweenPods);
+router.post('/deposit', handleDepositToPod);
+
+// Distribution Routes
+router.post('/distribute', handleDistributePodFunds);
+router.post('/disburse', handleExecutePodDisbursement);
 
 export default router;

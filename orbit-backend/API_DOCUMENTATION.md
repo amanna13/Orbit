@@ -44,11 +44,26 @@ Create a new pod with a name, creator address, and role.
 }
 ```
 
+**Behavior (join-code flow)**
+
+This project uses on-chain hashed join codes for "scan-to-join" without an off-chain DB. When a pod is created the server:
+
+- generates a short random plaintext join code (returned to the caller and suitable for encoding as a QR),
+- computes a hash of that code (sha3-256 preferred; falls back to sha256 if runtime lacks sha3),
+- calls the Cadence CreatePod transaction passing the joinHash (only the hash is stored on-chain),
+- waits for the transaction to be sealed and returns the transaction ID, the created pod ID (if emitted) and the plaintext join code to the caller.
+
+The plaintext join code is only returned once (at creation). To join, clients scan that code and submit it to the Join endpoint; the backend hashes the plaintext, looks up the podID via the on-chain `GetPodIDByJoinHash` script, and then calls the `JoinPod` transaction with the resolved podID.
+
+This keeps the plaintext code off-chain except for the initial return to the creator and the user's scanned copy. If you prefer not to return the plaintext to the server at all, implement client-side signing and an on-chain verification flow instead.
+
 **Response:**
 ```json
 {
   "success": true,
   "transactionId": "abc123...",
+  "podID": 1,
+  "joinCode": "8f4b2a1c",
   "message": "Pod created successfully"
 }
 ```
@@ -76,6 +91,10 @@ Join an existing pod using a join code.
   "message": "Successfully joined pod"
 }
 ```
+
+Notes:
+- The server expects the plaintext `joinCode` from the client (scanned from QR). The server hashes it locally and resolves the `podID` on-chain via `GetPodIDByJoinHash.cdc` before submitting a `JoinPod` transaction. If the joinCode is invalid the endpoint will return a 400/500 describing the issue.
+- The `signerAddress` field is currently informational; the backend must sign the transaction using a configured service authorizer or the user must provide wallet signing via FCL. See Environment Variables and the `SERVICE_ACCOUNT_PRIVATE_KEY` usage notes.
 
 ---
 
@@ -147,6 +166,12 @@ Get detailed information about a specific pod.
   }
 }
 ```
+
+Important note about join codes and metadata:
+
+- The plaintext `joinCode` (the short code you can encode as a QR for "scan-to-join") is only returned once by the `POST /api/flow/pods` create endpoint. The server generates the code at creation time and returns it to the caller. The plaintext join code is NOT stored on-chain and is not kept in pod metadata by the backend.
+- On-chain the contract stores only the hashed join code (the `joinHash`) as part of the pod metadata. This is intentionally irreversible so that plaintext codes are not discoverable from on-chain state.
+- Therefore, `GET /api/flow/pods` and `GET /api/flow/pods/:podID` will NOT include the plaintext `joinCode`. They may include other pod fields (id, name, creator, members, balance), but not the plaintext join code. If you need to re-issue join codes, the server must generate a new code and update the on-chain hash (subject to access controls).
 
 ---
 
@@ -389,13 +414,18 @@ The service expects Cadence transaction and script files in the following struct
 ```
 cadence/
 ├── transactions/
-│   ├── createPod.cdc
-│   ├── JoinPod.cdc
+│   ├── CreatePod.cdc            # called by server to create a pod and store joinHash
+│   ├── JoinPod.cdc              # called to add the signer to the pod by podID
 │   ├── LeavePod.cdc
 │   └── TransferBetweenPods.cdc
 └── scripts/
-    ├── GetAllPods.cdc
-    └── GetPodDetails.cdc
+  ├── GetAllPods.cdc
+  ├── GetPodDetails.cdc
+  └── GetPodIDByJoinHash.cdc   # lookup podID by stored joinHash
+
+Important:
+- Replace the placeholder import address `0x01` in the Cadence transaction/script files with the actual address where `PodContract` is deployed.
+- The current Cadence files are migration-friendly but may need small edits to match your Flow/Cadence version (AuthAccount vs authorized &Account patterns). After deploying the contract, run your Cadence linter and adjust transactions as needed.
 ```
 
 ---
