@@ -1,7 +1,7 @@
 <div align="center">
   
   <img width = "200" alt="loop" src="https://github.com/user-attachments/assets/a8d154d6-f9ea-4843-92ef-48098e0342ad" />
-  <p>Subscriptions made simple. Poweered by SolanaPay</p>
+  <p>Stay in Orbit. The new way money moves.</p>
 
 <br/>
 <p align="center">
@@ -21,8 +21,10 @@
 
 Orbit is a shared on-chain money pool built for everyday people - friends, families, small teams or local businesses ! Whosoever manage expenses together. Just create a pod, add members, pool funds, pay each other,  automate payouts - *all powered by Flow + Forte*. Orbit makes collaborative finance feel effortles, it’s collaborative finance reinvented. Whether roommates splitting rent or a vendor paying staff across town, pods keep money pooled, trackable, and instantly payable.
 
-## Live Demos & Deliverables
-[![Watch the video](https://img.youtube.com/vi/LYZbpNVmFv0/0.jpg)](https://www.youtube.com/watch?v=LYZbpNVmFv0)
+## <img width="40" src = "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExdzQxeXUzM2t4YWszd28zcjgyY3hmYzRiaW8wOG1kMDBmanZhNWphdyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/sHNCX4Q47hEZZkmLra/giphy.gif"/> Live Demos & Deliverables
+<a href="https://www.youtube.com/watch?v=LYZbpNVmFv0" target="_blank">
+<img width="600"  alt="BUILDSHOWCASE ORBIT" src="https://github.com/user-attachments/assets/09dc9d32-8292-47b5-a642-112d2771eda9" />
+</a>
 
 ## 🎯 Objective
 
@@ -69,7 +71,7 @@ Let’s imagine a street-side food vendor. He runs a small Taco and Burger stall
 
 3. *You as a person went to eat with your roommates* - You and your friend visit the street vendor for dinner. You both want to split the $20 bill evenly. But instead of using expense splitting apps, or paying one person and settling later, you:
 - [x] Open the Roommates Pod you share with your flatmates
-- [x] Add a “Food Expense” entry
+- [x] Add a “Food Expense” entry <br>
 Our system automatically splits the amount among all members. The Pod pays the vendor’s Pod directly. Funds move instantly through Flow Actions. Everyone’s balances update automatically — no tracking needed. Your friend doesn’t even need the vendor’s number. The Pod-to-Pod transaction handles everything.
 
 > From tiny food stalls to shared apartments to small teams — people already behave like groups managing money. But tools haven't caught up. Pods make this coordination possible built for the real world — not just banks.
@@ -93,10 +95,44 @@ On the mobile side, we used Web3Auth for frictionless login, local caching for i
 <img width="300" height="3251" alt="13" src="https://github.com/user-attachments/assets/b3f126bb-c831-4b27-8658-fe7cceb3260e" />
 <img width="400" height="2536" alt="14" src="https://github.com/user-attachments/assets/e4e414a1-faeb-4d36-8e25-d7df5c3086b5" />
 
-### How it looks (UI Walkthrough)!
+### How it looks (App Walkthrough)!
 
+<div align="left">
+  <img src="https://github.com/user-attachments/assets/57961ae7-e0bf-48b1-8438-83108f7680e1" width="170" style="margin-right: 20px;" />
+  <img src="https://github.com/user-attachments/assets/77788202-a9be-4239-939b-cfac2d087327" width="170" style="margin-right: 20px;" />
+  <img src="https://github.com/user-attachments/assets/fffd624e-e539-4193-9de6-d7164d1af761" width="170" style="margin-right: 20px;" />
+  <img src="https://github.com/user-attachments/assets/496f0cf5-2605-41b7-bf09-5ab2a2a9fb0a" width="170" style="margin-right: 20px;" />
+  <img src="https://github.com/user-attachments/assets/690e3d14-23ae-48b8-8fc1-586f9d08931f" width="170" style="margin-right: 20px;" />
+  <img src="https://github.com/user-attachments/assets/a91bed64-0796-4770-bed8-8e2427436190" width="170" style="margin-right: 20px;" />
+  <img src="https://github.com/user-attachments/assets/b053c0dd-70d8-4493-9c8d-4084c74d9bf2" width="170" style="margin-right: 20px;" />
+  <img src="https://github.com/user-attachments/assets/c87c1fa9-4274-4248-a8b6-5ec83d3bb28c" width="170" style="margin-right: 20px;" />
+</div>
 
 -----------------------
-Made with ❤️ 
+###  Made with <img width="40" style="margin-left: 5px;" src="https://cdn.dribbble.com/userupload/20824313/file/original-3a9c46750e9646d7a3ae7af98378ddf4.gif">
+<table align="left">
+  <tr>
+    <td>
+      <img src="https://github.com/Anmol-Baranwal/Cool-GIFs-For-GitHub/assets/74038190/7bb1e704-6026-48f9-8435-2f4d40101348" width="50">
+    </td>
+    <td style="text-align: center; vertical-align: middle;">
+      <h4 style="margin: 0; display: flex; align-items: center; justify-content: center;">
+        Connect with me 
+      </h4>
+    </td>
+  </tr>
 
-<div align="center"> <strong>We're actively building, debugging, and prototyping —<br>drop a ⭐, share your feedback, or just vibe with us!</strong> <br/><br/> <img src="https://github.com/Anmol-Baranwal/Cool-GIFs-For-GitHub/assets/74038190/491e3e44-11a0-487a-b07b-717f677bbe4a" width="170" /> </div>
+  <tr>
+    <td colspan="2" align="center">
+      <a href="https://github.com/amanna13">
+        <img src="https://github.com/amanna13.png" width="80" height="80"><br>
+        <sub><b>@amanna13</b></sub>
+      </a>
+    </td>
+  </tr>
+</table>
+
+
+
+
+<div align="center"> <strong>I'm actively building, debugging, and prototyping —<br>drop a ⭐, share your feedback, or just vibe with me!</strong> <br/><br/> <img src="https://github.com/Anmol-Baranwal/Cool-GIFs-For-GitHub/assets/74038190/491e3e44-11a0-487a-b07b-717f677bbe4a" width="170" /> </div>
